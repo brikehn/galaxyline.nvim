@@ -1,5 +1,9 @@
 # galaxyline.nvim
 
+**Fork changes:**
+* Changed the formatting of the "LineColumn" provider
+----
+
 galaxyline is a light-weight and **Super Fast** statusline plugin. Galaxyline
 componentizes Vim's statusline by having a provider for each text area.
 
