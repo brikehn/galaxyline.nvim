@@ -2,13 +2,9 @@ local vim = vim
 local M = {}
 
 local function file_readonly(readonly_icon)
-  if vim.bo.filetype == 'help' then
-    return ''
-  end
+  if vim.bo.filetype == 'help' then return '' end
   local icon = readonly_icon or ''
-  if vim.bo.readonly == true then
-    return " " .. icon .. " "
-  end
+  if vim.bo.readonly == true then return " " .. icon .. " " end
   return ''
 end
 
@@ -21,9 +17,7 @@ function M.get_current_file_name(modified_icon, readonly_icon)
   end
   local icon = modified_icon or ''
   if vim.bo.modifiable then
-    if vim.bo.modified then
-      return file .. ' ' .. icon .. '  '
-    end
+    if vim.bo.modified then return file .. ' ' .. icon .. '  ' end
   end
   return file .. ' '
 end
@@ -31,17 +25,15 @@ end
 -- format print current file size
 function M.format_file_size(file)
   local size = vim.fn.getfsize(file)
-  if size == 0 or size == -1 or size == -2 then
-    return ''
-  end
+  if size == 0 or size == -1 or size == -2 then return '' end
   if size < 1024 then
     size = size .. 'b'
   elseif size < 1024 * 1024 then
-    size = string.format('%.1f',size/1024) .. 'k'
+    size = string.format('%.1f', size / 1024) .. 'k'
   elseif size < 1024 * 1024 * 1024 then
-    size = string.format('%.1f',size/1024/1024) .. 'm'
+    size = string.format('%.1f', size / 1024 / 1024) .. 'm'
   else
-    size = string.format('%.1f',size/1024/1024/1024) .. 'g'
+    size = string.format('%.1f', size / 1024 / 1024 / 1024) .. 'g'
   end
   return size .. ' '
 end
@@ -60,15 +52,13 @@ end
 
 -- get file format
 -- and cover to upper
-function M.get_file_format()
-  return vim.bo.fileformat:upper()
-end
+function M.get_file_format() return vim.bo.fileformat:upper() end
 
 -- show line:column
 function M.line_column()
   local line = vim.fn.line('.')
   local column = vim.fn.col('.')
-  return string.format("%3d :%2d ", line, column)
+  return string.format(" %d:%d ", line, column)
 end
 
 -- show current line percent of all lines
@@ -80,58 +70,57 @@ function M.current_line_percent()
   elseif current_line == vim.fn.line('$') then
     return ' Bot '
   end
-  local result,_ = math.modf((current_line/total_line)*100)
-  return ' '.. result .. '% '
+  local result, _ = math.modf((current_line / total_line) * 100)
+  return ' ' .. result .. '% '
 end
 
 local icon_colors = {
-   Brown        = '#905532',
-   Aqua         = '#3AFFDB',
-   Blue         = '#689FB6',
-   Darkblue     = '#44788E',
-   Purple       = '#834F79',
-   Red          = '#AE403F',
-   Beige        = '#F5C06F',
-   Yellow       = '#F09F17',
-   Orange       = '#D4843E',
-   Darkorange   = '#F16529',
-   Pink         = '#CB6F6F',
-   Salmon       = '#EE6E73',
-   Green        = '#8FAA54',
-   Lightgreen   = '#31B53E',
-   White        = '#FFFFFF',
-   LightBlue    = '#5fd7ff',
+  Brown = '#905532',
+  Aqua = '#3AFFDB',
+  Blue = '#689FB6',
+  Darkblue = '#44788E',
+  Purple = '#834F79',
+  Red = '#AE403F',
+  Beige = '#F5C06F',
+  Yellow = '#F09F17',
+  Orange = '#D4843E',
+  Darkorange = '#F16529',
+  Pink = '#CB6F6F',
+  Salmon = '#EE6E73',
+  Green = '#8FAA54',
+  Lightgreen = '#31B53E',
+  White = '#FFFFFF',
+  LightBlue = '#5fd7ff'
 }
 
 local icons = {
-    Brown        = {''},
-    Aqua         = {''},
-    LightBlue    = {'',''},
-    Blue         = {'','','','','','','','','','','','',''},
-    Darkblue     = {'',''},
-    Purple       = {'','','','',''},
-    Red          = {'','','','','',''},
-    Beige        = {'','',''},
-    Yellow       = {'','','λ','',''},
-    Orange       = {'',''},
-    Darkorange   = {'','','','',''},
-    Pink         = {'',''},
-    Salmon       = {''},
-    Green        = {'','','','','',''},
-    Lightgreen   = {'','','','﵂'},
-    White        = {'','','','','',''},
+  Brown = {''},
+  Aqua = {''},
+  LightBlue = {'', ''},
+  Blue = {
+    '', '', '', '', '', '', '', '', '', '', '',
+    '', ''
+  },
+  Darkblue = {'', ''},
+  Purple = {'', '', '', '', ''},
+  Red = {'', '', '', '', '', ''},
+  Beige = {'', '', ''},
+  Yellow = {'', '', 'λ', '', ''},
+  Orange = {'', ''},
+  Darkorange = {'', '', '', '', ''},
+  Pink = {'', ''},
+  Salmon = {''},
+  Green = {'', '', '', '', '', ''},
+  Lightgreen = {'', '', '', '﵂'},
+  White = {'', '', '', '', '', ''}
 }
 
 -- filetype or extensions : { colors ,icon}
 local user_icons = {}
 
-function M.define_file_icon()
-  return  user_icons
-end
+function M.define_file_icon() return user_icons end
 
-local function get_file_info()
-  return vim.fn.expand('%:t'), vim.fn.expand('%:e')
-end
+local function get_file_info() return vim.fn.expand('%:t'), vim.fn.expand('%:e') end
 
 function M.get_file_icon()
   local icon = ''
@@ -139,10 +128,14 @@ function M.get_file_icon()
     icon = vim.fn.WebDevIconsGetFileTypeSymbol()
     return icon .. ' '
   end
-  local ok,devicons = pcall(require,'nvim-web-devicons')
-  if not ok then print('No icon plugin found. Please install \'kyazdani42/nvim-web-devicons\'') return '' end
-  local f_name,f_extension = get_file_info()
-  icon = devicons.get_icon(f_name,f_extension)
+  local ok, devicons = pcall(require, 'nvim-web-devicons')
+  if not ok then
+    print(
+        'No icon plugin found. Please install \'kyazdani42/nvim-web-devicons\'')
+    return ''
+  end
+  local f_name, f_extension = get_file_info()
+  icon = devicons.get_icon(f_name, f_extension)
   if icon == nil then
     if user_icons[vim.bo.filetype] ~= nil then
       icon = user_icons[vim.bo.filetype][2]
@@ -166,9 +159,7 @@ function M.get_file_icon_color()
   local has_devicons, devicons = pcall(require, 'nvim-web-devicons')
   if has_devicons then
     local icon, iconhl = devicons.get_icon(f_name, f_ext)
-    if icon ~= nil then
-      return vim.fn.synIDattr(vim.fn.hlID(iconhl), 'fg')
-    end
+    if icon ~= nil then return vim.fn.synIDattr(vim.fn.hlID(iconhl), 'fg') end
   end
 
   local icon = M.get_file_icon():match('%S+')
@@ -180,11 +171,7 @@ end
 function M.filename_in_special_buffer()
   local short_list = require('galaxyline').short_line_list
   local fname = M.get_current_file_name()
-  for _,v in ipairs(short_list) do
-    if v == vim.bo.filetype then
-      return ''
-    end
-  end
+  for _, v in ipairs(short_list) do if v == vim.bo.filetype then return '' end end
   return fname
 end
 
