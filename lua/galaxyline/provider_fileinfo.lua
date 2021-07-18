@@ -4,7 +4,7 @@ local M = {}
 local function file_readonly(readonly_icon)
   if vim.bo.filetype == 'help' then return '' end
   local icon = readonly_icon or ''
-  if vim.bo.readonly == true then return " " .. icon .. " " end
+  if vim.bo.readonly == true then return ' ' .. icon .. ' ' end
   return ''
 end
 
@@ -17,7 +17,7 @@ function M.get_current_file_name(modified_icon, readonly_icon)
   end
   local icon = modified_icon or ''
   if vim.bo.modifiable then
-    if vim.bo.modified then return file .. ' ' .. icon .. '  ' end
+    if vim.bo.modified then return file .. ' ' .. icon .. ' ' end
   end
   return file .. ' '
 end
@@ -58,7 +58,7 @@ function M.get_file_format() return vim.bo.fileformat:upper() end
 function M.line_column()
   local line = vim.fn.line('.')
   local column = vim.fn.col('.')
-  return string.format(" %d:%d ", line, column)
+  return string.format(' %d:%d ', line, column)
 end
 
 -- show current line percent of all lines
@@ -94,25 +94,25 @@ local icon_colors = {
 }
 
 local icons = {
-  Brown = {''},
-  Aqua = {''},
-  LightBlue = {'', ''},
+  Brown = { '' },
+  Aqua = { '' },
+  LightBlue = { '', '' },
   Blue = {
     '', '', '', '', '', '', '', '', '', '', '',
     '', ''
   },
-  Darkblue = {'', ''},
-  Purple = {'', '', '', '', ''},
-  Red = {'', '', '', '', '', ''},
-  Beige = {'', '', ''},
-  Yellow = {'', '', 'λ', '', ''},
-  Orange = {'', ''},
-  Darkorange = {'', '', '', '', ''},
-  Pink = {'', ''},
-  Salmon = {''},
-  Green = {'', '', '', '', '', ''},
-  Lightgreen = {'', '', '', '﵂'},
-  White = {'', '', '', '', '', ''}
+  Darkblue = { '', '' },
+  Purple = { '', '', '', '', '' },
+  Red = { '', '', '', '', '', '' },
+  Beige = { '', '', '' },
+  Yellow = { '', '', 'λ', '', '' },
+  Orange = { '', '' },
+  Darkorange = { '', '', '', '', '' },
+  Pink = { '', '' },
+  Salmon = { '' },
+  Green = { '', '', '', '', '', '' },
+  Lightgreen = { '', '', '', '﵂' },
+  White = { '', '', '', '', '', '' }
 }
 
 -- filetype or extensions : { colors ,icon}
@@ -124,7 +124,7 @@ local function get_file_info() return vim.fn.expand('%:t'), vim.fn.expand('%:e')
 
 function M.get_file_icon()
   local icon = ''
-  if vim.fn.exists("*WebDevIconsGetFileTypeSymbol") == 1 then
+  if vim.fn.exists('*WebDevIconsGetFileTypeSymbol') == 1 then
     icon = vim.fn.WebDevIconsGetFileTypeSymbol()
     return icon .. ' '
   end
